@@ -4,4 +4,7 @@
     <dimen name="small_padding">16dp</dimen>
     <dimen name="medium_font_size">23sp</dimen>
     <dimen name="small_dimension">8dp</dimen>
+    <dimen name="grid_height">120dp</dimen>
+    <dimen name="layout_small_margin">10dp</dimen>
+    <dimen name="separator_1dp">1dp</dimen>
 </resources>
