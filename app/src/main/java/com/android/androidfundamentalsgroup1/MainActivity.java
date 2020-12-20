@@ -3,34 +3,23 @@ package com.android.androidfundamentalsgroup1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     private final String ANDROID_DOCS = "https://developer.android.com/";
 
-    private TextView oneTextView;
-    private EditText editTextUserFullName;
+    private TextView resultTextView;
+    private EditText email;
+    private EditText phone;
     private CheckBox checkBoxTermsAndConditions;
-    private SeekBar seekBarCountChallenges;
-    private TextView textViewPurpleContent;
     private Button buttonGetContent;
-    private WebView webViewAndroid;
-    private Spinner spinnerAndroidVersions;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,120 +27,54 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // seteaza layout-ul asociat activatii MainActivity
         // setContentView(R.layout.activity_main);
         // asociem views_sample_1 ca layout al activitatii MainActivity
-        // setContentView(R.layout.views_sample_1);
-        // displayViewsSample1();
+        setContentView(R.layout.login_view);
+        findComponents();
 
-        // run ScrollView sample
-        // setContentView(R.layout.views_sample_scroll_view);
-
-        // run WebView sample
-        // setContentView(R.layout.views_sample_web_view);
-        // loadUrlInWebView();
-
-        // run Spinner sample
-        setContentView(R.layout.views_sample_spinner);
-        setupSpinnerAdapter();
     }
 
-    // step 1 = get the data source for the Spinner
-    private List<String> getSpinnerAndroidDataSource() {
-        List<String> androidVersions = new ArrayList<>();
-        androidVersions.add("Cupcake");
-        androidVersions.add("Donut");
-        androidVersions.add("Eclair");
-        androidVersions.add("KitKat");
-        androidVersions.add("Pie");
-        return androidVersions;
-    }
-
-    // step 2 = get the adapter
-    private ArrayAdapter<String> getSpinnerAdapter() {
-        return new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getSpinnerAndroidDataSource());
-    }
-
-    // step 3 = set the adapter to the spinner
-    private void setupSpinnerAdapter() {
-        spinnerAndroidVersions = findViewById(R.id.spinnerAndroidVersions);
-        spinnerAndroidVersions.setAdapter(getSpinnerAdapter());
-        // let the Spinner to know that we implemented the setOnItemSelectedListener event at the Activity level
-        spinnerAndroidVersions.setOnItemSelectedListener(this);
-    }
-
-    private void loadUrlInWebView() {
-        webViewAndroid = findViewById(R.id.webViewAndroid);
-        WebSettings webSettings = webViewAndroid.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webViewAndroid.loadUrl(ANDROID_DOCS);
-    }
-
-    private void displayViewsSample1() {
-        oneTextView = findViewById(R.id.firstTextView);
-        oneTextView.setText(R.string.new_text);
-
-        editTextUserFullName = findViewById(R.id.editTextFullName);
-        editTextUserFullName.setText(R.string.default_full_name);
-
-        checkBoxTermsAndConditions = findViewById(R.id.checkboxTermsAndConditions);
-        if (checkBoxTermsAndConditions.isChecked()) {
-            checkBoxTermsAndConditions.setChecked(false);
-            oneTextView.setText(R.string.checkbox_checked);
-        } else {
-            checkBoxTermsAndConditions.setChecked(true);
-            oneTextView.setText(R.string.checkbox_unchecked);
-        }
-
-        checkBoxTermsAndConditions.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
-                    editTextUserFullName.setText(R.string.checkbox_state_checked);
-                } else {
-                    editTextUserFullName.setText(R.string.checkbox_state_unchecked);
-                }
-            }
-        });
-
-        seekBarCountChallenges = findViewById(R.id.seekBarChallenges);
-        seekBarCountChallenges.setProgress(5);
-
-        textViewPurpleContent = findViewById(R.id.textViewPurpleContent);
-
-        buttonGetContent = findViewById(R.id.buttonGetContent);
-        // block comment/un-comment CTRL + Shift + /
-        /*buttonGetContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // preluam contentul din EditText si il convertim in String
-                String contentFromEditText = editTextUserFullName.getText().toString();
-                if (contentFromEditText != null && contentFromEditText.length() > 0) {
-                    textViewPurpleContent.setText(contentFromEditText);
-                } else {
-                    editTextUserFullName.setError(getString(R.string.error_missing_text));
-                }
-            }
-        });*/
+    private void findComponents() {
+        email = findViewById(R.id.emailInput);
+        phone = findViewById(R.id.phoneInput);
+        checkBoxTermsAndConditions = findViewById(R.id.tAndCCheckbox);
+        resultTextView = findViewById(R.id.resultTextView);
     }
 
     public void buttonGetContentOnClick(View view) {
-        // preluam contentul din EditText si il convertim in String
-        String contentFromEditText = editTextUserFullName.getText().toString();
-        if (contentFromEditText != null && contentFromEditText.length() > 0) {
-            textViewPurpleContent.setText(contentFromEditText);
+        String resultString = "";
+        boolean validForm = true;
+
+        String emailInput = email.getText().toString();
+        if (Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+            resultString += "Email : " + emailInput + "\n";
         } else {
-            editTextUserFullName.setError(getString(R.string.error_missing_text));
+            email.setError("Please enter a valid email");
+            validForm = false;
         }
+
+        String phoneInput = phone.getText().toString();
+        if(Patterns.PHONE.matcher(phoneInput).matches()){
+            resultString += "Phone : " + emailInput + "\n";
+        } else {
+            phone.setError("Please enter a valid phone number");
+            validForm = false;
+        }
+
+        if(!checkBoxTermsAndConditions.isChecked()) {
+            validForm = false;
+            checkBoxTermsAndConditions.setError("You need to accept the terms&conditions");
+        } else {
+            checkBoxTermsAndConditions.setError(null);
+        }
+
+        if(validForm){
+            resultTextView.setText(resultString);
+        } else {
+            resultTextView.setText("Not yet submitted");
+        }
+
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);
+
     }
 
-    // params: list, child, position, adapter.getItemId(position)
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long itemId) {
-        List<String> androidVersions = getSpinnerAndroidDataSource();
-        String selectedVersion = androidVersions.get(position);
-        Toast.makeText(MainActivity.this, selectedVersion, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }

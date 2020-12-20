@@ -19,12 +19,6 @@
             android:background="@color/colorAccent"
             android:text="@string/first_text" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:background="@color/colorPrimary"
-            android:text="@string/second_text" />
     </LinearLayout>
 
     <TextView
@@ -41,12 +35,6 @@
         android:textSize="@dimen/medium_font_size"
         android:textStyle="italic|bold" />
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:scaleType="center"
-        android:src="@drawable/android" />
-
     <Button
         android:id="@+id/buttonGetContent"
         android:layout_width="wrap_content"
@@ -59,10 +47,6 @@
         android:textColor="@color/white"
         android:textStyle="bold" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/small_dimension"
-        android:background="@color/colorPrimary" />
 
     <EditText
         android:id="@+id/editTextFullName"
@@ -76,49 +60,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"
-        android:text="@string/a_accept_t_and_c" />
+        android:text="@string/i_accept_t_and_c" />
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/yes" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no" />
-    </RadioGroup>
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="5"
-        android:rating="3"
-        android:stepSize="1" />
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:text="@string/wi_fi" />
-
-    <SeekBar android:id="@+id/seekBarChallenges"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="10"
-        android:progress="3" />
-
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:queryHint="@string/search_for_names" />
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </LinearLayout>
