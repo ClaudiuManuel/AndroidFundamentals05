@@ -5,38 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private final String ANDROID_DOCS = "https://developer.android.com/";
-
-    private TextView oneTextView;
-    private EditText editTextUserFullName;
-    private CheckBox checkBoxTermsAndConditions;
-    private SeekBar seekBarCountChallenges;
-    private TextView textViewPurpleContent;
-    private Button buttonGetContent;
-    private WebView webViewAndroid;
-    private Spinner spinnerAndroidVersions;
+public class MainActivity extends AppCompatActivity{
     private RecyclerView recyclerViewEmails;
+    private RecyclerView recylerViewStudents;
 
-    private List<Email> emails;
+    private List<Student> students;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,136 +36,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // setupSpinnerAdapter();
 
         // run RecyclerView sample
-        setContentView(R.layout.views_sample_recycler_view);
+        setContentView(R.layout.code_challenge_recyclerview);
         displayEmailsList();
     }
 
     // RecyclerView implementation
     // get data source
     private void inbox() {
-        emails = new ArrayList<>();
-        Email email = null;
+        students = new ArrayList<Student>();
+        Student student = null;
         for (int i = 0; i < 25; i++) {
-            email = new Email(0, "Magda " + i, "Hello Android " + i, "This is an intro about Android");
-            emails.add(email);
+            student = new Student("First Name","Last Name");
+            students.add(student);
         }
     }
 
     // set the layout manager, in our case LinearLayoutManager because it's a list of emails
-    private void setEmailsLayoutManager() {
-        recyclerViewEmails = findViewById(R.id.recyclerViewEmails);
-        recyclerViewEmails.setLayoutManager(new LinearLayoutManager(this));
+    private void setStudentsLayoutManager() {
+        /*recyclerViewEmails = findViewById(R.id.recyclerViewEmails);*/
+        recylerViewStudents = findViewById(R.id.recyclerViewStudents);
+        recylerViewStudents.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void setEmailsAdapter() {
-        recyclerViewEmails.setAdapter(new EmailAdapter(this, emails));
+    private void setStudentAdapter() {
+        recylerViewStudents.setAdapter(new StudentAdapter(this, students));
     }
 
     private void displayEmailsList() {
         inbox();
-        setEmailsLayoutManager();
-        setEmailsAdapter();
-    }
-
-    // Spinner implementation
-    // step 1 = get the data source for the Spinner
-    private List<String> getSpinnerAndroidDataSource() {
-        List<String> androidVersions = new ArrayList<>();
-        androidVersions.add("Cupcake");
-        androidVersions.add("Donut");
-        androidVersions.add("Eclair");
-        androidVersions.add("KitKat");
-        androidVersions.add("Pie");
-        return androidVersions;
-    }
-
-    // step 2 = get the adapter
-    private ArrayAdapter<String> getSpinnerAdapter() {
-        return new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getSpinnerAndroidDataSource());
-    }
-
-    // step 3 = set the adapter to the spinner
-    private void setupSpinnerAdapter() {
-        spinnerAndroidVersions = findViewById(R.id.spinnerAndroidVersions);
-        spinnerAndroidVersions.setAdapter(getSpinnerAdapter());
-        // let the Spinner to know that we implemented the setOnItemSelectedListener event at the Activity level
-        spinnerAndroidVersions.setOnItemSelectedListener(this);
-    }
-
-    private void loadUrlInWebView() {
-        webViewAndroid = findViewById(R.id.webViewAndroid);
-        WebSettings webSettings = webViewAndroid.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webViewAndroid.loadUrl(ANDROID_DOCS);
-    }
-
-    private void displayViewsSample1() {
-        oneTextView = findViewById(R.id.firstTextView);
-        oneTextView.setText(R.string.new_text);
-
-        editTextUserFullName = findViewById(R.id.editTextFullName);
-        editTextUserFullName.setText(R.string.default_full_name);
-
-        checkBoxTermsAndConditions = findViewById(R.id.checkboxTermsAndConditions);
-        if (checkBoxTermsAndConditions.isChecked()) {
-            checkBoxTermsAndConditions.setChecked(false);
-            oneTextView.setText(R.string.checkbox_checked);
-        } else {
-            checkBoxTermsAndConditions.setChecked(true);
-            oneTextView.setText(R.string.checkbox_unchecked);
-        }
-
-        checkBoxTermsAndConditions.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
-                    editTextUserFullName.setText(R.string.checkbox_state_checked);
-                } else {
-                    editTextUserFullName.setText(R.string.checkbox_state_unchecked);
-                }
-            }
-        });
-
-        seekBarCountChallenges = findViewById(R.id.seekBarChallenges);
-        seekBarCountChallenges.setProgress(5);
-
-        textViewPurpleContent = findViewById(R.id.textViewPurpleContent);
-
-        buttonGetContent = findViewById(R.id.buttonGetContent);
-        // block comment/un-comment CTRL + Shift + /
-        /*buttonGetContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // preluam contentul din EditText si il convertim in String
-                String contentFromEditText = editTextUserFullName.getText().toString();
-                if (contentFromEditText != null && contentFromEditText.length() > 0) {
-                    textViewPurpleContent.setText(contentFromEditText);
-                } else {
-                    editTextUserFullName.setError(getString(R.string.error_missing_text));
-                }
-            }
-        });*/
-    }
-
-    public void buttonGetContentOnClick(View view) {
-        // preluam contentul din EditText si il convertim in String
-        String contentFromEditText = editTextUserFullName.getText().toString();
-        if (contentFromEditText != null && contentFromEditText.length() > 0) {
-            textViewPurpleContent.setText(contentFromEditText);
-        } else {
-            editTextUserFullName.setError(getString(R.string.error_missing_text));
-        }
-    }
-
-    // params: list, child, position, adapter.getItemId(position)
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long itemId) {
-        List<String> androidVersions = getSpinnerAndroidDataSource();
-        String selectedVersion = androidVersions.get(position);
-        Toast.makeText(MainActivity.this, selectedVersion, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+        setStudentsLayoutManager();
+        setStudentAdapter();
     }
 }
