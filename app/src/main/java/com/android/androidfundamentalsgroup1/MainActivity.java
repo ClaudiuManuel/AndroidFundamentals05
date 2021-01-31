@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity{
         // setupSpinnerAdapter();
 
         // run RecyclerView sample
-        setContentView(R.layout.code_challenge_recyclerview);
-        displayEmailsList();
+        setContentView(R.layout.constraint_challenge);
     }
 
     // RecyclerView implementation
